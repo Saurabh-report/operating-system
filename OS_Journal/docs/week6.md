@@ -114,8 +114,13 @@ I synthesized a client-server workload to measure network efficiency.
 ## 6. Optimisation Analysis
 
 ### Optimization 1: Swappiness Tuning
-*Problem*: Early swapping (at 60%) caused "stuttering".
-*Command*: `sudo sysctl vm.swappiness=10`
+*Problem*: Early swapping (at 60% RAM usage) caused disk thrashing.
+
+**Implementation Steps:**
+1.  **Check Current Value**: `cat /proc/sys/vm/swappiness` (Default: 60)
+2.  **Apply Optimization**: `sudo sysctl vm.swappiness=10`
+3.  **Make Permanent**: `echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.conf`
+4.  **Verify New Value**: `cat /proc/sys/vm/swappiness` (Should be: 10)
 
 | Metric | Before Optimization | After Optimization | % Improvement |
 | :--- | :--- | :--- | :--- |
@@ -126,7 +131,12 @@ I synthesized a client-server workload to measure network efficiency.
 
 ### Optimization 2: Service Pruning (`snapd`)
 *Problem*: `snapd` daemon consumed ~40MB RAM idling.
-*Command*: `sudo systemctl disable --now snapd`
+
+**Implementation Steps:**
+1.  **Check Status (Before)**: `systemctl status snapd` (Active/Running)
+2.  **Stop Service**: `sudo systemctl stop snapd`
+3.  **Disable Auto-Start**: `sudo systemctl disable snapd`
+4.  **Verify Status (After)**: `systemctl status snapd` (Inactive/Dead)
 
 | Metric | Before Optimization | After Optimization | RAM Saved |
 | :--- | :--- | :--- | :--- |
