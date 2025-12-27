@@ -94,6 +94,10 @@ The following table justifies every running service on the system to ensure the 
 
 *Note: `snapd` and `multipathd` were disabled in Week 6 optimizations.*
 
+**Command to generate evidence:**
+```bash
+systemctl list-units --type=service --state=running
+```
 **[INSERT SCREENSHOT HERE: Capture 'systemctl' output listing running services]**
 
 ## 3. Remaining Risk Assessment
