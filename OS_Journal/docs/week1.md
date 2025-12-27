@@ -69,7 +69,14 @@ To allow connectivity between the Host and the Guest VM while maintaining intern
 
 ## 5. System Specifications (Evidence)
 
-The following commands verify the system state after initial installation.
+The following commands are used to verify the system state after initial installation.
+
+**Command Explanations:**
+*   `uname -a`: Prints kernel version and system architecture details.
+*   `lsb_release -a`: Displays specific OS distribution information (Ubuntu 24.04).
+*   `free -h`: Shows available RAM in "human-readable" format (GB/MB).
+*   `df -h`: Reports disk space usage for file systems in human-readable format.
+*   `ip addr`: Lists network interfaces and assigned IP addresses.
 
 **Command to generate evidence:**
 ```bash
