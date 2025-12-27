@@ -8,25 +8,21 @@ This report summarizes the security posture of the Linux server environment foll
 ### 1.1 Vulnerability Assessment (Lynis)
 
 **Audit Command**: `sudo lynis audit system`
-
-I performed an initial audit immediately after installation (Week 3) and a final audit after applying security controls (Week 5).
+*   **Rationale**: Lynis performs extensive checks against best practices (CIS benchmarks) to calculate a "Hardening Index".
 
 | Metric | Initial Score (Week 3) | Final Score (Week 7) | Improvement |
 | :--- | :--- | :--- | :--- |
 | **Hardening Index** | 62 / 100 | **81 / 100** | +19 Points |
 | **Tests Performed** | 245 | 245 | N/A |
 
-#### Hardening Comparison Chart
+#### Hardening Improvement Visualization
+This diagram illustrates the positive impact of our security controls.
+
 ```mermaid
-chart
-    type: bar
-    title: "Lynis Hardening Index Improvement"
-    x-axis: "Audit Phase"
-    y-axis: "Hardening Index Score"
-    series:
-        - name: "Score"
-          data: [62, 81]
-    categories: ["Initial (Default)", "Final (Hardened)"]
+graph LR
+    A[Initial Score: 62] -->|Hardening Applied| B((Final Score: 81))
+    style A fill:#ffcccc,stroke:#333
+    style B fill:#ccffcc,stroke:#333,stroke-width:2px
 ```
 
 #### Remediation Actions Taken
@@ -42,8 +38,8 @@ The following high-priority findings were remediated during this course:
 
 ### 1.2 Network Security Assessment (Nmap)
 
-**Audit Command**: `nmap -p- 192.168.56.10` (Run from Workstation)
-*Rationale*: Scans all 65,535 ports to ensure no unauthorized services are exposed.
+**Audit Command**: `nmap -p- 192.168.56.10`
+*   **Rationale**: Scans all 65,535 TCP ports from the workstation to ensure the firewall is correctly blocking non-essential traffic.
 
 **Results Analysis:**
 | Port | State | Service | Status Justification |
@@ -57,9 +53,14 @@ The following high-priority findings were remediated during this course:
 
 I manually verified the critical access control mechanisms.
 
-*   [x] **SSH Keys**: Password authentication failed when tested; Key-based auth succeeded.
-*   [x] **Sudo Access**: `admin_user` required password for `sudo`; Root account login failed.
-*   [x] **AppArmor**: Verified status is `active` with 44 profiles enforced.
+*   **SSH Key Verification**:
+    *   *Command*: `ssh -o PubkeyAuthentication=no root@192.168.56.10`
+    *   *Result*: `Permission denied (publickey)`. (Confirms Password Auth is disabled).
+*   **AppArmor Status**:
+    *   *Command*: `sudo aa-status`
+    *   *Result*: `44 profiles are in enforce mode`. (Confirms MAC is active).
+
+**[INSERT SCREENSHOT HERE: Capture terminal showing 'Permission denied' on root login attempt]**
 
 ## 2. Service Inventory
 
@@ -77,6 +78,8 @@ The following table justifies every running service on the system to ensure the 
 | `getty@tty1` | Console Login | Physical/Hypervisor console access. | N/A |
 
 *Note: `snapd` and `multipathd` were disabled in Week 6 optimizations.*
+
+**[INSERT SCREENSHOT HERE: Capture 'systemctl' output listing running services]**
 
 ## 3. Remaining Risk Assessment
 
