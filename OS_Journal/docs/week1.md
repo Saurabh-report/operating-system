@@ -71,32 +71,17 @@ To allow connectivity between the Host and the Guest VM while maintaining intern
 
 The following commands verify the system state after initial installation.
 
-*(Run these commands on your server and paste the output below)*
-
-### `uname -a` (Kernel Info)
+**Command to generate evidence:**
 ```bash
-[INSERT OUTPUT HERE, e.g., Linux server 5.15.0-91-generic #101-Ubuntu SMP ...]
+# Run these commands one by one to display system info
+uname -a        # Kernel Info
+lsb_release -a  # OS Version
+free -h         # Memory
+df -h /         # Disk Usage
+ip addr         # Network IPs
 ```
 
-### `lsb_release -a` (OS Version)
-```bash
-[INSERT OUTPUT HERE]
-```
-
-### `free -h` (Memory Usage)
-```bash
-[INSERT OUTPUT HERE]
-```
-
-### `df -h` (Disk Usage)
-```bash
-[INSERT OUTPUT HERE]
-```
-
-### `ip addr` (Network Interfaces)
-```bash
-[INSERT OUTPUT HERE]
-```
+**[INSERT SCREENSHOT HERE: Capture terminal showing the output of the above commands]**
 
 ---
 [Next: Week 2 - Security Planning](week2.md)
