@@ -52,6 +52,11 @@ sudo lynis audit system
 | **22/tcp** | Open | ssh | **Authorized**: Required for remote administration. |
 | **All Other** | Filtered | N/A | **Secure**: Blocked by UFW Default Deny policy. |
 
+**Command to generate evidence:**
+```bash
+# Run this from your Workstation (PowerShell or Terminal)
+nmap -p- 192.168.56.10
+```
 **[INSERT SCREENSHOT HERE: Capture Nmap output showing only Port 22 open]**
 
 ### 1.3 Access Control Verification
