@@ -20,8 +20,8 @@ graph TD
     Internet["Internet (Updates/Packages)"]
 
     %% Edges
-    Workstation -->|SSH (Port 22)| Server
-    Server -->|NAT Adapter| Internet
+    Workstation -- "SSH (Port 22)" --> Server
+    Server -- "NAT Adapter" --> Internet
     
     %% Styling
     classDef default fill:#f9f9f9,stroke:#333,stroke-width:1px;
