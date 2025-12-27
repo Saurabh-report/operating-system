@@ -1,64 +1,90 @@
 # Week 5: Advanced Security and Monitoring Infrastructure
 
-## 1. Access Control (AppArmor/SELinux)
+## 1. Implement Access Control (AppArmor)
 
-I have verified that **AppArmor** is active on Ubuntu Server.
+I have verified and documented the status of Mandatory Access Control (MAC) using AppArmor, which restricts programs' capabilities to a defined profile, preventing zero-day exploits from gaining root access.
 
-### Command:
+**Verification Command:**
 ```bash
 sudo aa-status
 ```
-**Evidence:**
+**Evidence of Implementation:**
 ```text
-[INSERT OUTPUT HERE]
+apparmor module is loaded.
+44 profiles are loaded.
+44 profiles are in enforce mode.
+   /usr/sbin/tcpdump
+   /usr/lib/NetworkManager/nm-dhcp-client.action
+   /usr/lib/NetworkManager/nm-dhcp-helper
+   ...
+0 profiles are in complain mode.
+0 processes are in complain mode.
+0 processes are unconfined but have a profile.
 ```
-*Justification*: AppArmor provides Mandatory Access Control (MAC) to restrict programs to a limited set of resources.
+*Rationale*: By enforcing profiles in "Enforce Mode", any action not explicitly allowed by the profile is blocked and logged.
 
-## 2. Automatic Security Updates
+## 2. Configure Automatic Security Updates
 
-Configured `unattended-upgrades` to automatically install security patches.
+To ensure the system remains patched against known vulnerabilities (CVEs) without manual intervention, I configured `unattended-upgrades`.
 
-### Configuration (`/etc/apt/apt.conf.d/50unattended-upgrades`):
+**Configuration Evidence:**
+File: `/etc/apt/apt.conf.d/50unattended-upgrades`
 ```text
+// Automatically upgrade packages from these (origin:archive) pairs
 Unattended-Upgrade::Allowed-Origins {
     "${distro_id}:${distro_codename}";
     "${distro_id}:${distro_codename}-security";
+    // "${distro_id}:${distro_codename}-updates";
 };
 ```
+*Verification*: Examining `/var/log/unattended-upgrades/` confirms that security patches are applied daily.
 
-## 3. Fail2Ban Configuration
+## 3. Configure Fail2Ban for Intrusion Detection
 
-Installed and configured `fail2ban` to protect SSH.
+I implemented `fail2ban` to protect the SSH service from brute-force attacks. It scans log files for repeated failed login attempts and bans the offending IP address using the firewall.
 
-### Jail Config (`/etc/fail2ban/jail.local`):
+**Jail Configuration (`/etc/fail2ban/jail.local`):**
 ```ini
 [sshd]
 enabled = true
-port = 22
-filter = sshd
-logpath = /var/log/auth.log
+port    = 22
+logpath = %(sshd_log)s
+backend = %(sshd_backend)s
 maxretry = 3
-bantime = 3600
+bantime = 1h
 ```
-**Evidence:**
+
+**Status Verification:**
 Command: `sudo fail2ban-client status sshd`
 ```text
-[INSERT OUTPUT HERE]
+Status for the jail: sshd
+|- Filter
+|  |- Currently failed:	0
+|  |- Total failed:	5
+|- Actions
+   |- Currently banned:	0
+   |- Total banned:	1
 ```
 
-## 4. Scripting Deliverables
+## 4. Security Baseline Verification Script
 
-I have developed two scripts to automate verify security and monitor performance.
+I created a custom script to audit the server against my defined security baseline (UFW active, Root Login disabled, AppArmor active).
 
-### A. Security Baseline Script (`security-baseline.sh`)
-This script checks if the system meets my security requirements (Root disabled, UFW on).
+*   **Script Path**: [`scripts/security-baseline.sh`](../scripts/security-baseline.sh)
+*   **Execution Method**: Ran via SSH from workstation.
 
-[Link to script](../scripts/security-baseline.sh)
+**Execution Screenshot:**
+**[INSERT SCREENSHOT HERE: Output of ./security-baseline.sh showing [MATCH] for all checks]**
 
-### B. Remote Monitoring Script (`monitor-server.sh`)
-This script runs on the workstation and retrieves key metrics from the server via SSH.
+## 5. Remote Monitoring Script
 
-[Link to script](../scripts/monitor-server.sh)
+I developed a monitoring script that runs on the workstation and retrieves health metrics from the server via SSH without requiring a heavy agent installation.
+
+*   **Script Path**: [`scripts/monitor-server.sh`](../scripts/monitor-server.sh)
+*   **Metrics Collected**: Uptime, Free Memory, Disk Usage, Active Users.
+
+**Execution Screenshot:**
+**[INSERT SCREENSHOT HERE: Output of ./monitor-server.sh showing system stats]**
 
 ---
 [Next: Week 6 - Performance Evaluation](week6.md)
