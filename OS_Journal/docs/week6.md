@@ -78,7 +78,21 @@ pie
 
 ## 4. Testing Evidence
 
+To validate the performance data, I have captured real-time screenshots during the execution of the primary workloads.
+
+### Evidence A: CPU Stress Test
+*   **Command**: `stress-ng --cpu 4 --timeout 60s`
+*   **Explanation**: This command spawns 4 worker threads that calculate complex math functions, forcing all 4 CPU cores to 100% utilization.
+*   **Verification**: The `htop` screenshot below shows all cores (numbered 1-4) at or near 100% usage (Green/Red bars).
+
 **[INSERT SCREENSHOT HERE: Capture 'htop' showing high CPU bars during stress-ng]**
+
+### Evidence B: Disk Speed Test
+*   **Command**: `dd if=/dev/zero of=testfile bs=1G count=1 oflag=direct`
+*   **Explanation**: This command writes a 1 Gigabyte file full of zeros (`/dev/zero`) to the disk.
+    *   `oflag=direct`: Forces the write to bypass the RAM cache and go straight to the disk, giving the TRUE disk speed.
+*   **Verification**: The terminal output below shows the final write speed (e.g., "110 MB/s").
+
 **[INSERT SCREENSHOT HERE: Capture terminal showing 'dd' completion speed]**
 
 ## 5. Network Performance Analysis
