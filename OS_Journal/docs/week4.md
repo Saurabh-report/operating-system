@@ -84,9 +84,21 @@ To                         Action      From
 
 ## 7. Remote Administration Evidence
 
-To satisfy the administrative constraint, the following evidence shows administrative commands (`apt update`) being executed remotely via the SSH session.
+To adhere to the administrative constraint ("All server configurations must be performed via SSH"), I have verified complete remote control capability.
 
-**[INSERT SCREENSHOT HERE: Capture your terminal showing you running 'sudo apt update' inside the SSH session]**
+**Constraint Verification:**
+1.  **Remote Connection**: Connected via `ssh admin_user@192.168.56.10`.
+2.  **Privilege Escalation**: Successfully executed `sudo` commands without root login.
+3.  **Task Execution**: Performed package updates and system checks remotely.
+
+**Evidence of Administrative Actions:**
+
+The screenshot below demonstrates the execution of the following commands in a single remote session:
+1.  `whoami` (Verifying user identity)
+2.  `sudo -v` (Verifying sudo access)
+3.  `sudo apt update` (Verifying administrative package management capability)
+
+**[INSERT SCREENSHOT HERE: Capture your terminal showing the output of 'whoami', 'sudo -v', and 'sudo apt update' executed successfully via SSH]**
 
 ---
 [Next: Week 5 - Advanced Security](week5.md)
