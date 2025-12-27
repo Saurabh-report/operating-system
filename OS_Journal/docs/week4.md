@@ -4,20 +4,25 @@ This journal entry documents the server deployment and foundational security imp
 
 ## 1. Configure SSH with Key-Based Authentication
 
-To replace insecure password-based login, I generated an Ed25519 key pair on the workstation and deployed it to the server.
+To resolve the security vulnerability of password adherence, I implemented Ed25519 key-based authentication. This cryptographic pair allows for robust Identity Access Management (IAM) without transmitting secrets over the network.
 
-**Commands Executed on Workstation:**
-```powershell
-# Generate Key Pair
-ssh-keygen -t ed25519 -f "$HOME/.ssh/id_ed25519"
+**Detailed Step-by-Step Configuration:**
 
-# Copy Public Key to Server (initially using password)
-type $HOME/.ssh/id_ed25519.pub | ssh user@192.168.56.10 "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
-```
+1.  **Key Generation**:
+    *   Command: `ssh-keygen -t ed25519 -f "$HOME/.ssh/id_ed25519"`
+    *   *Rationale*: Ed25519 is chosen over RSA for its superior performance and smaller key size (256-bit) while providing higher security margins.
+2.  **Key Deployment**:
+    *   Command: `type $HOME/.ssh/id_ed25519.pub | ssh user@192.168.56.10 "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"`
+    *   *Mechanism*: This appends the public key to the server's authorized list, allowing the private key on the workstation to decrypt the challenge token during login.
 
 ## 2. Configure Firewall (UFW)
 
-I configured the Uncomplicated Firewall (UFW) to enforce a "default deny" policy, permitting SSH connections **only** from my specific workstation IP (`192.168.56.1`).
+I configured the Uncomplicated Firewall (UFW) to implement a **"Default Deny"** security posture. This minimizes the attack surface by ensuring that no ports are open unless explicitly authorized.
+
+**Applied Rule-set Logic:**
+*   **Incoming Data**: `DENY` (Blocks all unsolicited traffic from the internet/network).
+*   **Outgoing Data**: `ALLOW` (Permits server to fetch updates/packages).
+*   **SSH Exception**: `ALLOW` only from `192.168.56.1/32` (Ensures only my specific admin workstation can manage the server).
 
 **Commands Executed on Server:**
 ```bash
@@ -29,31 +34,34 @@ sudo ufw enable
 
 ## 3. Manage Users and Privilege Management
 
-I created a dedicated administrative user (`admin_user`) to separate administrative tasks from the default account, adhering to the principle of least privilege.
+To comply with the Principle of Least Privilege (PoLP), I moved away from the default user to a named administrative account.
 
-**Commands Executed on Server:**
-```bash
-# Create new user
-sudo adduser admin_user
-
-# Add to sudo group
-sudo usermod -aG sudo admin_user
-```
+**Implementation Steps:**
+1.  **Create User**: `sudo adduser admin_user`
+    *   Creates a new user execution context with its own home directory.
+2.  **Grant Sudo Access**: `sudo usermod -aG sudo admin_user`
+    *   Adds the user to the `sudo` group, permitting root-level command execution only when explicitly requested (and logged) via `sudo`.
 
 ## 4. SSH Access Evidence
 
-The following screenshot demonstrates a successful SSH connection to the server using the new key-based authentication (no password prompt).
+The screenshot below validates the successful implementation of the security controls. It demonstrates:
+1.  **No Password Prompt**: Determining that Key-based authentication is active.
+2.  **Successful Shell Access**: Confirming the firewall permitted the connection.
 
-**[INSERT SCREENSHOT HERE: Capture your terminal showing a successful 'ssh admin_user@192.168.56.10' login command]**
+**[INSERT SCREENSHOT HERE: Capture your terminal showing a simple clean login 'ssh admin_user@192.168.56.10' where it logs in immediately without asking for a password]**
 
 ## 5. Configuration Files (Before and After)
 
-I modified `/etc/ssh/sshd_config` to disable Password Authentication and Root Login.
+I hardened the SSH Daemon configuration (`/etc/ssh/sshd_config`) to permanently enforce these security policies.
+
+**Change Log Analysis:**
+*   `PasswordAuthentication no`: Hardens system against brute-force dictionary attacks.
+*   `PermitRootLogin no`: Prevents direct root access, ensuring all administrative actions are attributable to a specific verified user (`admin_user`).
 
 **Diff of Changes:**
 ```diff
---- /etc/ssh/sshd_config.bak
-+++ /etc/ssh/sshd_config
+--- /etc/ssh/sshd_config.bak (Original Default)
++++ /etc/ssh/sshd_config (Hardened)
 @@ -56,8 +56,8 @@
 -#PasswordAuthentication yes
 +PasswordAuthentication no
