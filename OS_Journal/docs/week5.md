@@ -4,10 +4,15 @@
 
 I have verified and documented the status of Mandatory Access Control (MAC) using AppArmor, which restricts programs' capabilities to a defined profile, preventing zero-day exploits from gaining root access.
 
-**Verification Command:**
+**Installation & Verification Commands:**
 ```bash
+# Ensure AppArmor utilities are installed
+sudo apt install apparmor-utils -y
+
+# Check Status
 sudo aa-status
 ```
+
 **Evidence of Implementation:**
 ```text
 apparmor module is loaded.
@@ -27,6 +32,15 @@ apparmor module is loaded.
 
 To ensure the system remains patched against known vulnerabilities (CVEs) without manual intervention, I configured `unattended-upgrades`.
 
+**Implementation Commands:**
+```bash
+# Install the package
+sudo apt install unattended-upgrades -y
+
+# Enable the configuration wizard (Select 'Yes')
+sudo dpkg-reconfigure --priority=low unattended-upgrades
+```
+
 **Configuration Evidence:**
 File: `/etc/apt/apt.conf.d/50unattended-upgrades`
 ```text
@@ -42,6 +56,18 @@ Unattended-Upgrade::Allowed-Origins {
 ## 3. Configure Fail2Ban for Intrusion Detection
 
 I implemented `fail2ban` to protect the SSH service from brute-force attacks. It scans log files for repeated failed login attempts and bans the offending IP address using the firewall.
+
+**Implementation Commands:**
+```bash
+# Install Fail2Ban
+sudo apt install fail2ban -y
+
+# Create a local configuration copy
+sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+
+# Restart service to apply changes
+sudo systemctl restart fail2ban
+```
 
 **Jail Configuration (`/etc/fail2ban/jail.local`):**
 ```ini
@@ -71,7 +97,19 @@ Status for the jail: sshd
 I created a custom script to audit the server against my defined security baseline (UFW active, Root Login disabled, AppArmor active).
 
 *   **Script Path**: [`scripts/security-baseline.sh`](../scripts/security-baseline.sh)
-*   **Execution Method**: Ran via SSH from workstation.
+
+**Execution Instructions (Run on Server):**
+```bash
+# 1. Copy script to server (Run from Workstation)
+scp scripts/security-baseline.sh admin_user@192.168.56.10:~
+
+# 2. SSH into server
+ssh admin_user@192.168.56.10
+
+# 3. Make executable and run (Run on Server)
+chmod +x security-baseline.sh
+./security-baseline.sh
+```
 
 **Execution Screenshot:**
 **[INSERT SCREENSHOT HERE: Output of ./security-baseline.sh showing [MATCH] for all checks]**
@@ -81,7 +119,15 @@ I created a custom script to audit the server against my defined security baseli
 I developed a monitoring script that runs on the workstation and retrieves health metrics from the server via SSH without requiring a heavy agent installation.
 
 *   **Script Path**: [`scripts/monitor-server.sh`](../scripts/monitor-server.sh)
-*   **Metrics Collected**: Uptime, Free Memory, Disk Usage, Active Users.
+
+**Execution Instructions (Run on Workstation):**
+```powershell
+# 1. Make executable (if using Git Bash/WSL)
+chmod +x scripts/monitor-server.sh
+
+# 2. Run the script
+./scripts/monitor-server.sh
+```
 
 **Execution Screenshot:**
 **[INSERT SCREENSHOT HERE: Output of ./monitor-server.sh showing system stats]**
