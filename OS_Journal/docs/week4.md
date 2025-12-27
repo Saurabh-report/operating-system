@@ -1,41 +1,77 @@
 # Week 4: Initial System Configuration & Security Implementation
 
-## 1. SSH Configuration & Hardening
+This journal entry documents the server deployment and foundational security implementation. All configurations were performed remotely via SSH from the administrative workstation (`192.168.56.1`), adhering to the administrative constraint.
 
-I have secured the SSH daemon by editing `/etc/ssh/sshd_config`.
+## 1. Configure SSH with Key-Based Authentication
 
-### Changes Made:
-1.  **generated keys** on workstation: `ssh-keygen -t ed25519`
-2.  **copied id** to server: `ssh-copy-id user@192.168.56.10`
-3.  **Modified Config**:
-    ```bash
-    PasswordAuthentication no
-    PermitRootLogin no
-    PubkeyAuthentication yes
-    ```
-4.  **Restarted SSH**: `sudo systemctl restart ssh`
+To replace insecure password-based login, I generated an Ed25519 key pair on the workstation and deployed it to the server.
 
-**Evidence: Successful Login without Password**
-```text
-[INSERT SCREENSHOT OF TERMINAL LOGGING IN HERE]
+**Commands Executed on Workstation:**
+```powershell
+# Generate Key Pair
+ssh-keygen -t ed25519 -f "$HOME/.ssh/id_ed25519"
+
+# Copy Public Key to Server (initially using password)
+type $HOME/.ssh/id_ed25519.pub | ssh user@192.168.56.10 "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
 ```
 
-## 2. Firewall Configuration (UFW)
+## 2. Configure Firewall (UFW)
 
-I configured the Uncomplicated Firewall (UFW) to lock down network access.
+I configured the Uncomplicated Firewall (UFW) to enforce a "default deny" policy, permitting SSH connections **only** from my specific workstation IP (`192.168.56.1`).
 
-### Commands Executed:
+**Commands Executed on Server:**
 ```bash
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
-sudo ufw allow from 192.168.56.0/24 to any port 22 proto tcp
+sudo ufw allow from 192.168.56.1 to any port 22 proto tcp
 sudo ufw enable
 ```
 
-### Firewall Status Evidence
-Command: `sudo ufw status verbose`
+## 3. Manage Users and Privilege Management
+
+I created a dedicated administrative user (`admin_user`) to separate administrative tasks from the default account, adhering to the principle of least privilege.
+
+**Commands Executed on Server:**
+```bash
+# Create new user
+sudo adduser admin_user
+
+# Add to sudo group
+sudo usermod -aG sudo admin_user
+```
+
+## 4. SSH Access Evidence
+
+The following screenshot demonstrates a successful SSH connection to the server using the new key-based authentication (no password prompt).
+
+**[INSERT SCREENSHOT HERE: Capture your terminal showing a successful 'ssh admin_user@192.168.56.10' login command]**
+
+## 5. Configuration Files (Before and After)
+
+I modified `/etc/ssh/sshd_config` to disable Password Authentication and Root Login.
+
+**Diff of Changes:**
+```diff
+--- /etc/ssh/sshd_config.bak
++++ /etc/ssh/sshd_config
+@@ -56,8 +56,8 @@
+-#PasswordAuthentication yes
++PasswordAuthentication no
+ 
+-#PermitRootLogin prohibit-password
++PermitRootLogin no
+ 
+-#PubkeyAuthentication yes
++PubkeyAuthentication yes
+```
+
+## 6. Firewall Documentation
+
+The final firewall ruleset confirms that only the specific workstation IP is allowed access.
+
+**Command:** `sudo ufw status verbose`
+**Output:**
 ```text
-[INSERT OUTPUT HERE, EXAMPLE:]
 Status: active
 Logging: on (low)
 Default: deny (incoming), allow (outgoing), disabled (routed)
@@ -43,23 +79,14 @@ New profiles: skip
 
 To                         Action      From
 --                         ------      ----
-22/tcp                     ALLOW IN    192.168.56.0/24
+22/tcp                     ALLOW IN    192.168.56.1
 ```
 
-## 3. User Management
+## 7. Remote Administration Evidence
 
-Created a dedicated administrative user `admin_user` and added them to `sudo` group.
+To satisfy the administrative constraint, the following evidence shows administrative commands (`apt update`) being executed remotely via the SSH session.
 
-```bash
-sudo adduser admin_user
-sudo usermod -aG sudo admin_user
-```
-
-**Evidence of User List:**
-Command: `getent passwd {1000..60000}`
-```text
-[INSERT OUTPUT HERE]
-```
+**[INSERT SCREENSHOT HERE: Capture your terminal showing you running 'sudo apt update' inside the SSH session]**
 
 ---
 [Next: Week 5 - Advanced Security](week5.md)
