@@ -96,6 +96,7 @@ The following table justifies every running service on the system to ensure the 
 
 **Command to generate evidence:**
 ```bash
+# List all actively running services on the system
 systemctl list-units --type=service --state=running
 ```
 **[INSERT SCREENSHOT HERE: Capture 'systemctl' output listing running services]**
