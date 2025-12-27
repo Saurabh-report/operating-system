@@ -70,6 +70,11 @@ I manually verified the critical access control mechanisms.
     *   *Command*: `sudo aa-status`
     *   *Result*: `44 profiles are in enforce mode`. (Confirms MAC is active).
 
+**Command to generate evidence:**
+```powershell
+# Run from Workstation. Expect "Permission denied".
+ssh root@192.168.56.10
+```
 **[INSERT SCREENSHOT HERE: Capture terminal showing 'Permission denied' on root login attempt]**
 
 ## 2. Service Inventory
