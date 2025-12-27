@@ -6,7 +6,9 @@ The following diagram illustrates the dual-system architecture used for this cou
 
 ```mermaid
 graph TD
+    %% Nodes
     subgraph Host["Host Machine (Windows/MacOS)"]
+        direction TB
         Workstation["Admin Workstation<br>(SSH Client: Powershell/Terminal)"]
         VBox["VirtualBox Hypervisor"]
         
@@ -14,12 +16,20 @@ graph TD
             Server["Linux Server (Headless)<br>Ubuntu Server 24.04"]
         end
     end
-
-    Workstation -->|SSH (Port 22)| Server
-    Server -->|NAT Adapter| Internet["Internet (Updates/Packages)"]
     
-    style Server fill:#f9f,stroke:#333,stroke-width:2px
-    style Workstation fill:#bbf,stroke:#333,stroke-width:2px
+    Internet["Internet (Updates/Packages)"]
+
+    %% Edges
+    Workstation -->|SSH (Port 22)| Server
+    Server -->|NAT Adapter| Internet
+    
+    %% Styling
+    classDef default fill:#f9f9f9,stroke:#333,stroke-width:1px;
+    classDef vm fill:#e1f5fe,stroke:#0277bd,stroke-width:2px;
+    classDef host fill:#fff3e0,stroke:#ef6c00,stroke-width:2px;
+    
+    class Server vm;
+    class Workstation host;
 ```
 
 ## 2. Distribution Selection Justification
