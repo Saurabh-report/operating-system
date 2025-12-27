@@ -73,12 +73,12 @@ The following commands verify the system state after initial installation.
 
 **Command to generate evidence:**
 ```bash
-# Run these commands one by one to display system info
-uname -a        # Kernel Info
-lsb_release -a  # OS Version
-free -h         # Memory
-df -h /         # Disk Usage
-ip addr         # Network IPs
+# Run these commands to verify system specifications
+uname -a
+lsb_release -a
+free -h
+df -h
+ip addr
 ```
 
 **[INSERT SCREENSHOT HERE: Capture terminal showing the output of the above commands]**
