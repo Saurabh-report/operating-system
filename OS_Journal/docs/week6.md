@@ -39,21 +39,27 @@ I have broken down the performance data into specific resource categories for gr
 
 ## 3. Performance Visualisations
 
-### Visualization 1: Resource Impact Comparison
-This chart highlights how different stressors impact specific subsystems (CPU User% vs IO Wait%).
+### Visualization 1: CPU Time Distribution (Scenario A: CPU Stress)
+This chart illustrates the CPU bottleneck where nearly all time is spent in "User" space handling the synthetic load.
 
 ```mermaid
-chart
-    type: bar
-    title: "Resource Impact by Stressor"
-    x-axis: "Workload Type"
-    y-axis: "Percentage Utilized"
-    series:
-        - name: "CPU (User Time)"
-          data: [0.5, 99.8, 3.5]
-        - name: "CPU (IO Wait)"
-          data: [0.0, 0.0, 45.2]
-    categories: ["Idle", "CPU Stress", "Disk Stress"]
+pie
+    title CPU Time Distribution (CPU Stress)
+    "User (Application)" : 99.8
+    "System (Kernel)" : 0.2
+    "Idle" : 0.0
+```
+
+### Visualization 1b: CPU Time Distribution (Scenario B: Disk I/O)
+This chart shows a different bottleneck: "IO Wait". The CPU is idle but blocked waiting for the disk, indicating an I/O bottleneck.
+
+```mermaid
+pie
+    title CPU Time Distribution (Disk Stress)
+    "IO Wait (Blocked)" : 45.2
+    "System (Kernel)" : 15.0
+    "User (Application)" : 3.5
+    "Idle" : 36.3
 ```
 
 ### Visualization 2: Memory Distribution Under Load
