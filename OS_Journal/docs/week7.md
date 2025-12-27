@@ -34,6 +34,11 @@ The following high-priority findings were remediated during this course:
 | `FIREWALL-NOT-ACTIVE` | High | Enabled `ufw` and set default deny policy |
 | `PKG-UPDATE` | Medium | Configured `unattended-upgrades` for automatic patching |
 
+**Command to generate evidence:**
+```bash
+sudo lynis audit system
+# (The 'Hardening index' is displayed at the very bottom of the output)
+```
 **[INSERT SCREENSHOT HERE: Capture final Lynis 'Hardening Index' score output]**
 
 ### 1.2 Network Security Assessment (Nmap)
