@@ -1,5 +1,12 @@
 # Week 3: Application Selection for Performance Testing
 
+To accurately assess the stability and efficiency of an operating system, it is necessary to subject it to a variety of workloads. This phase, **Application Selection**, is focused on choosing tools that can stress-test the system's core subsystems: the CPU, Memory, Disk I/O, and Network.
+
+*   **Application Selection Strategy**: We choose a mix of **synthetic benchmarks** (like `stress-ng`) for isolated component testing and **real-world applications** (like `Nginx`) to observe how the OS manages concurrent processes and network traffic in a typical server environment.
+*   **Performance Testing Goals**: The objective is to establish a performance baseline. Understanding how the system behaves under 100% utilization allows us to predict scalability and ensure that security controls do not significantly degrade the user experience or system responsiveness.
+
+---
+
 ## 1. Application Selection Matrix
 
 To evaluate the system's performance under various conditions, I have selected the following applications representing different workload types.
