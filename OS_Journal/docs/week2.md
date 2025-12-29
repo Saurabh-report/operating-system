@@ -19,6 +19,10 @@ To ensure a secure server environment, I have established the following baseline
 | **Privilege** | **Sudo User** | Create a non-root user for administration to practice least privilege. | Pending |
 | **Intrusion** | **Fail2Ban** | Ban IPs that show malicious signs (repeated failed logins). | Pending |
 
+> [!NOTE]
+> **Screenshot Required**: Capture the output of `sudo ufw status verbose` to document the active firewall rules and baseline security state.
+> ![Firewall Status Placeholder]([INSERT_SCREENSHOT_HERE])
+
 ## 2. Threat Model
 
 I have identified three key security threats relevant to this specific deployment:
@@ -55,12 +59,20 @@ To ensure the security controls are effective and the system remains stable unde
 *   **Key Metrics**: Lynis Hardening Index and the number of "Warnings" vs. "Suggestions".
 *   **Success Criteria**: A hardening index score above 60 and no "Critical" warnings post-mitigation.
 
+> [!NOTE]
+> **Screenshot Required**: Capture the bottom section of the Lynis audit output showing the **Hardening Index** and the summary of warnings/suggestions.
+> ![Lynis Audit Results Placeholder]([INSERT_SCREENSHOT_HERE])
+
 ### Phase 2: Network & Firewall Validation (Nmap)
 *   **Objective**: Verify that the `UFW` firewall is correctly configured and no unauthorized services are exposed.
 *   **Method**: Run Nmap scans from the host machine (workstation) against the VM's static IP:
     *   `nmap -sT [IP]` (TCP Connect scan)
     *   `nmap -sU [IP]` (UDP scan for common services)
 *   **Success Criteria**: Only Port 22 (SSH) registers as `open`; all other ports must be `filtered` or `closed`.
+
+> [!NOTE]
+> **Screenshot Required**: Capture the Nmap scan results from the host machine showing that only the SSH port is open on the VM's IP.
+> ![Nmap Scan Verification Placeholder]([INSERT_SCREENSHOT_HERE])
 
 ### Phase 3: Control Specific Verification (Manual)
 *   **Objective**: Validate the implementation of specific security policies.
@@ -69,6 +81,10 @@ To ensure the security controls are effective and the system remains stable unde
     2.  **Root Login Check**: Attempt to log in directly as `root` (should be rejected).
     3.  **Sudoers Verification**: Ensure the administrative user can execute commands with `sudo` while regular actions are restricted.
 *   **Success Criteria**: Failed login attempts for restricted methods and successful privilege escalation for the authorized user.
+
+> [!NOTE]
+> **Screenshot Required**: Capture the terminal showing a failed SSH login attempt using a password (Permission denied) to verify that password authentication is successfully disabled.
+> ![Manual SSH Test Placeholder]([INSERT_SCREENSHOT_HERE])
 
 ### Phase 4: Performance & Stability Testing (Stress-ng)
 *   **Objective**: Evaluate how the system handles resource exhaustion and ensure the security monitoring tools (Fail2Ban/Lynis) don't crash under load.
