@@ -9,7 +9,11 @@ To accurately assess the stability and efficiency of an operating system, it is 
 
 ## 1. Application Selection Matrix
 
-To evaluate the system's performance under various conditions, I have selected the following applications representing different workload types.
+The following matrix categorizes our chosen tools by their primary resource impact. This categorization ensures that we do not just test the system "in general," but rather investigate how the Linux kernel handles specific pressure points—such as context switching in the CPU, page faults in memory, or interrupt handling during high I/O.
+
+*   **Workload Type**: Defines the specific hardware or software subsystem being targeted.
+*   **Application**: The specific package or binary selected to generate the load.
+*   **Justification**: The technical rationale for why this tool is suitable for scientific performance measurement.
 
 | Workload Type | Application | Justification |
 | :--- | :--- | :--- |
@@ -18,6 +22,14 @@ To evaluate the system's performance under various conditions, I have selected t
 | **I/O-Intensive** | **Dd** (Coreutils) | Standard command-line utility for copying files; excellent for testing sustained sequential disk write/read throughput. |
 | **Network-Intensive** | **Nginx** | High-performance web server. When configured to serve static files under load, it creates significant network traffic and socket usage. |
 | **Server Application** | **Nginx** | Represents a real-world "Server" workload (unlike synthetic tests), handling concurrent connections and daemon process management. |
+
+### Selection Rationale
+
+The selection of these tools was driven by the need for **reproducibility** and **resource isolation**:
+
+*   **Stress-ng** was chosen because it allows for granular control over stressors. By targeting the CPU and VM functions separately, we can observe how the Linux scheduler prioritizes threads versus how the Virtual Memory Manager handles memory pressure without confounding variables.
+*   **Dd** is a fundamental tool that bypasses complex application layers, providing a "raw" look at disk performance. This is crucial for verifying that our OS configuration (filesystem, mount options) is optimized for data throughput.
+*   **Nginx** serves a dual purpose. It validates the network stack's efficiency while simultaneously acting as a proxy for real-world server performance. Unlike the synthetic stress tests, Nginx involves complex system calls, socket management, and file descriptor handling, providing a holistic view of the server's health.
 
 ## 2. Installation Documentation
 
