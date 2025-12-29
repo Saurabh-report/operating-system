@@ -1,5 +1,12 @@
 # Week 2: Security Planning and Testing Methodology
 
+Effective system administration requires a dual-focus approach: proactive **Security Planning** and rigorous **Testing Methodology**.
+
+*   **Security Planning** involves identifying potential vulnerabilities and defining a set of baseline controls before the system is fully operational. By establishing a "hardened" configuration early, we reduce the attack surface and ensure that security is integrated into the system's architecture rather than added as an afterthought.
+*   **Testing Methodology** is the process of verifying that our planned security controls are correctly implemented and effective. It provides empirical evidence that the system behaves as expected under both normal conditions and potential attacks/resource exhaustion.
+
+---
+
 ## 1. Security Configuration Checklist
 
 To ensure a secure server environment, I have established the following baseline configuration checklist:
