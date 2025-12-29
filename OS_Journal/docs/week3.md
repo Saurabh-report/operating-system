@@ -33,23 +33,35 @@ The selection of these tools was driven by the need for **reproducibility** and 
 
 ## 2. Installation Documentation
 
-The following commands were executed via SSH to install the selected software on the Ubuntu 24.04 Server.
+To prepare the environment for testing, I executed the following commands on the Ubuntu 24.04 Server. These ensure that the lateast security patches are installed and that our testing tools are available.
 
-### Update Package Repository
+### Update and Upgrade System
+Before installing new software, it is best practice to refresh the local package database and upgrade existing packages.
 ```bash
 sudo apt update && sudo apt upgrade -y
 ```
+*   **`update`**: Synchronizes the local package list with the remote repositories.
+*   **`upgrade`**: Installs new versions of already installed packages.
+*   **`-y`**: Automatically answers "yes" to prompts, allowing for non-interactive execution.
 
-### Install Stress-ng and Nginx
+### Install Testing Utilities
+I installed `stress-ng` for synthetic loads and `nginx` for a real-world server workload.
 ```bash
 sudo apt install stress-ng nginx -y
 ```
+*Wait for the process to complete to ensure all dependencies are met.*
 
-### Verify Dd Installation
-`dd` is part of the `coreutils` package, which is pre-installed on Ubuntu. Validated presence with:
+> [!NOTE]
+> **Screenshot Required**: Capture the terminal output showing the final lines of the installation process for `stress-ng` and `nginx`.
+> ![Installation Success Placeholder]([INSERT_SCREENSHOT_HERE])
+
+### Verify Tool Presence
+For `dd`, I verified its version to ensure the coreutils package is functioning correctly.
 ```bash
 dd --version
 ```
+
+---
 
 ## 3. Expected Resource Profiles
 
@@ -62,20 +74,37 @@ The following table documents the anticipated resource usage patterns for each a
 | **Dd** | Disk I/O | **High System CPU (Kernel)** usage due to I/O interrupts. High **iowait** percentage. Sustained persistent storage writes. |
 | **Nginx** | Network / CPU | **High Network Bandwidth** (RX/TX). Moderate CPU usage depending on request rate. Low per-process memory footprint. |
 
-## 4. Monitoring Strategy
+---
 
-To measure the performance of these applications, I will use the following monitoring approach:
+## 4. Monitoring & Execution Strategy
+
+To measure performance, I will use a combination of real-time monitoring and logged data.
 
 ### Primary Monitoring Tools
-*   **Htop**: For real-time visual confirmation of per-process resource usage (CPU bars, Memory bars).
-*   **Vmstat**: To log system-wide performance data (CPU, Memory, Swap, IO) at 1-second intervals (e.g., `vmstat 1`).
-*   **Iostat**: Specifically for monitoring disk throughput and utilization during the `dd` tests.
+*   **Htop**: Provides a real-time visual dashboard of resource utilization (CPU, RAM, Swap).
+*   **Vmstat**: Used for high-resolution logging of system performance data.
+*   **Iostat**: Used to track granular disk performance metrics.
 
-### Measurement Approach
-1.  **Baseline**: Record system stats for 60 seconds at idle.
-2.  **Execution**: Run the specific workload for a fixed duration (e.g., 5 minutes).
-3.  **Observation**: During execution, capture metrics using `vmstat 1 > log.txt` and take screenshots of `htop`.
-4.  **Analysis**: Compare active metrics against the baseline to quantify the impact of the workload.
+### Workload Execution Commands
+The following table provides the specific commands I will use to trigger the stress tests. Each command is designed to isolate a specific subsystem.
+
+| Test Case | Execution Command | Explanation |
+| :--- | :--- | :--- |
+| **CPU Stress** | `stress-ng --cpu 2 --timeout 60s` | Spawns 2 CPU stressors for 60 seconds to maximize load on all vCPUs. |
+| **Memory Stress** | `stress-ng --vm 1 --vm-bytes 512M --timeout 60s` | Allocates 512MB of RAM and continuously writes to it to test memory throughput. |
+| **Disk I/O** | `dd if=/dev/zero of=testfile bs=1G count=1 oflag=direct` | Writes 1GB of zeros to the disk using direct I/O to bypass caching. |
+| **Network/Server** | `curl -I http://localhost` | A simple check to verify Nginx is responding to requests. |
+
+### Measurement Workflow
+1.  **Baseline Collection**: Record system state for 60 seconds while idle using `vmstat 1`.
+2.  **Stress Execution**: Run one of the commands from the table above.
+3.  **Real-time Capture**: Open `htop` in a separate SSH pane to observe the impact.
+    
+> [!NOTE]
+> **Screenshot Required**: Capture a screenshot of **htop** while the **Stress-ng (CPU)** test is running. The CPU bars should be at 100%.
+> ![CPU Stress Htop Placeholder]([INSERT_SCREENSHOT_HERE])
+
+4.  **Data Analysis**: Stop the test and compare the peak resource usage against the baseline.
 
 ---
 [Next: Week 4 - Initial System Configuration](week4.md)
