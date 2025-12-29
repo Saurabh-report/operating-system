@@ -40,9 +40,36 @@ I have identified three key security threats relevant to this specific deploymen
 
 ## 3. Testing Methodology Plan
 
-To verify these controls and system performance:
-*   **Security**: I will use **Lynis** for automated auditing and **Nmap** (from the workstation) to verify firewall rules.
-*   **Performance**: I will use **Stress-ng** to generate synthetic loads and **Htop/Vmstat** to monitor real-time resource usage.
+To ensure the security controls are effective and the system remains stable under load, I have developed a structured four-phase testing methodology. This plan transitions from broad automated audits to specific manual verifications and performance stress tests.
+
+### Phase 1: Automated Security Auditing (Lynis)
+*   **Objective**: Establish a security baseline and identify system configuration weaknesses.
+*   **Method**: Run `sudo lynis audit system` to scan the entire OS.
+*   **Key Metrics**: Lynis Hardening Index and the number of "Warnings" vs. "Suggestions".
+*   **Success Criteria**: A hardening index score above 60 and no "Critical" warnings post-mitigation.
+
+### Phase 2: Network & Firewall Validation (Nmap)
+*   **Objective**: Verify that the `UFW` firewall is correctly configured and no unauthorized services are exposed.
+*   **Method**: Run Nmap scans from the host machine (workstation) against the VM's static IP:
+    *   `nmap -sT [IP]` (TCP Connect scan)
+    *   `nmap -sU [IP]` (UDP scan for common services)
+*   **Success Criteria**: Only Port 22 (SSH) registers as `open`; all other ports must be `filtered` or `closed`.
+
+### Phase 3: Control Specific Verification (Manual)
+*   **Objective**: Validate the implementation of specific security policies.
+*   **Test Cases**:
+    1.  **SSH Auth Check**: Attempt to log in via SSH using a password (should be rejected).
+    2.  **Root Login Check**: Attempt to log in directly as `root` (should be rejected).
+    3.  **Sudoers Verification**: Ensure the administrative user can execute commands with `sudo` while regular actions are restricted.
+*   **Success Criteria**: Failed login attempts for restricted methods and successful privilege escalation for the authorized user.
+
+### Phase 4: Performance & Stability Testing (Stress-ng)
+*   **Objective**: Evaluate how the system handles resource exhaustion and ensure the security monitoring tools (Fail2Ban/Lynis) don't crash under load.
+*   **Method**: Use `stress-ng` to simulate various bottlenecks:
+    *   `stress-ng --cpu 2 --timeout 60s` (CPU stress)
+    *   `stress-ng --vm 1 --vm-bytes 512M --timeout 60s` (Memory stress)
+*   **Monitoring**: Use `htop` in a separate terminal to observe process behavior and `vmstat 1` to track context switching and IO wait.
+*   **Success Criteria**: The system recovers gracefully within 30 seconds after the stressor terminates without service failure.
 
 ---
 [Next: Week 3 - Application Selection](week3.md)
