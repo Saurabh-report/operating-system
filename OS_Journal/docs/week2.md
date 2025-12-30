@@ -21,7 +21,7 @@ To ensure a secure server environment, I have established the following baseline
 
 > [!NOTE]
 > **Screenshot Required**: Capture the output of `sudo ufw status verbose` to document the active firewall rules and baseline security state.
-> ![Firewall Status Placeholder]([INSERT_SCREENSHOT_HERE])
+> ![Firewall Status](w2%20ufw%20status.png)
 
 ## 2. Threat Model
 
@@ -61,7 +61,8 @@ To ensure the security controls are effective and the system remains stable unde
 
 > [!NOTE]
 > **Screenshot Required**: Capture the bottom section of the Lynis audit output showing the **Hardening Index** and the summary of warnings/suggestions.
-> ![Lynis Audit Results Placeholder]([INSERT_SCREENSHOT_HERE])
+> ![Lynis Audit Results 1](w2%20lynis%20audit%20resuts.png)
+> ![Lynis Audit Results 2](w2%20lynis%20audit%20resuts%202%20screenshot.png)
 
 ### Phase 2: Network & Firewall Validation (Nmap)
 *   **Objective**: Verify that the `UFW` firewall is correctly configured and no unauthorized services are exposed.
@@ -72,7 +73,7 @@ To ensure the security controls are effective and the system remains stable unde
 
 > [!NOTE]
 > **Screenshot Required**: Capture the Nmap scan results from the host machine showing that only the SSH port is open on the VM's IP.
-> ![Nmap Scan Verification Placeholder]([INSERT_SCREENSHOT_HERE])
+> ![Nmap Scan Verification](w2%20nmap%20.png)
 
 ### Phase 3: Control Specific Verification (Manual)
 *   **Objective**: Validate the implementation of specific security policies.
@@ -84,7 +85,7 @@ To ensure the security controls are effective and the system remains stable unde
 
 > [!NOTE]
 > **Screenshot Required**: Capture the terminal showing a failed SSH login attempt using a password (Permission denied) to verify that password authentication is successfully disabled.
-> ![Manual SSH Test Placeholder]([INSERT_SCREENSHOT_HERE])
+> ![Manual SSH Test](w2%20ssh-vv.png)
 
 ### Phase 4: Performance & Stability Testing (Stress-ng)
 *   **Objective**: Evaluate how the system handles resource exhaustion and ensure the security monitoring tools (Fail2Ban/Lynis) don't crash under load.
