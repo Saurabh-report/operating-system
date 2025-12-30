@@ -85,26 +85,5 @@ To measure performance, I will use a combination of real-time monitoring and log
 *   **Vmstat**: Used for high-resolution logging of system performance data.
 *   **Iostat**: Used to track granular disk performance metrics.
 
-### Workload Execution Commands
-The following table provides the specific commands I will use to trigger the stress tests. Each command is designed to isolate a specific subsystem.
-
-| Test Case | Execution Command | Explanation |
-| :--- | :--- | :--- |
-| **CPU Stress** | `stress-ng --cpu 2 --timeout 60s` | Spawns 2 CPU stressors for 60 seconds to maximize load on all vCPUs. |
-| **Memory Stress** | `stress-ng --vm 1 --vm-bytes 512M --timeout 60s` | Allocates 512MB of RAM and continuously writes to it to test memory throughput. |
-| **Disk I/O** | `dd if=/dev/zero of=testfile bs=1G count=1 oflag=direct` | Writes 1GB of zeros to the disk using direct I/O to bypass caching. |
-| **Network/Server** | `curl -I http://localhost` | A simple check to verify Nginx is responding to requests. |
-
-### Measurement Workflow
-1.  **Baseline Collection**: Record system state for 60 seconds while idle using `vmstat 1`.
-2.  **Stress Execution**: Run one of the commands from the table above.
-3.  **Real-time Capture**: Open `htop` in a separate SSH pane to observe the impact.
-    
-> [!NOTE]
-> **Screenshot Required**: Capture a screenshot of **htop** while the **Stress-ng (CPU)** test is running. The CPU bars should be at 100%.
-> ![CPU Stress Htop Placeholder]([INSERT_SCREENSHOT_HERE])
-
-4.  **Data Analysis**: Stop the test and compare the peak resource usage against the baseline.
-
 ---
 [Next: Week 4 - Initial System Configuration](week4.md)
