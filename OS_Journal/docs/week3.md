@@ -53,7 +53,7 @@ sudo apt install stress-ng nginx -y
 ```
 *Wait for the process to complete to ensure all dependencies are met.*
 
-> ![Installation Success Placeholder]([INSERT_SCREENSHOT_HERE])
+> ![Installation Success](w3Screenshot%20install%20stress%20-g%202025-12-29%20211412.png)
 
 ### Verify Tool Presence
 For `dd`, I verified its version to ensure the coreutils package is functioning correctly.
