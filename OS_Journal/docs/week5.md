@@ -94,6 +94,7 @@ Status for the jail: sshd
    |- Total banned:	1
 ```
 
+**Fail2Ban Status Evidence:**
 ![Fail2Ban Status Evidence](w5%20Screenshot%20sudo%20fail2ban%20sshd%20status%202025-12-30%20113422.png)
 
 ## 4. Security Baseline Verification Script
