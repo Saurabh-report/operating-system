@@ -13,6 +13,8 @@ sudo apt install apparmor-utils -y
 sudo aa-status
 ```
 
+![AppArmor Status Verification](w5%20Screenshot%20sudo%20aa-%20status2025-12-30%20112645.png)
+
 **Evidence of Implementation:**
 ```text
 apparmor module is loaded.
