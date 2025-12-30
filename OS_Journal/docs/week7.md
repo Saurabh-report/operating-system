@@ -40,7 +40,6 @@ sudo lynis audit system
 # (The 'Hardening index' is displayed at the very bottom of the output)
 ```
 **[INSERT SCREENSHOT HERE: Capture final Lynis 'Hardening Index' score output]**
-![Final Lynis Hardening Index](w6%20Screenshot%20lynis%20audit%202025-12-30%20145840.png)
 
 ### 1.2 Network Security Assessment (Nmap)
 
@@ -59,7 +58,6 @@ sudo lynis audit system
 nmap -p- 192.168.56.10
 ```
 **[INSERT SCREENSHOT HERE: Capture Nmap output showing only Port 22 open]**
-![Nmap Audit Verification](w6%20Screenshot%20nmap%20-p-%202025-12-30%20150628.png)
 
 ### 1.3 Access Control Verification
 
@@ -78,7 +76,6 @@ I manually verified the critical access control mechanisms.
 ssh root@192.168.56.10
 ```
 **[INSERT SCREENSHOT HERE: Capture terminal showing 'Permission denied' on root login attempt]**
-![SSH Root Login Denied](w7Screenshot%20%20ssh%20root%202025-12-30%20150948.png)
 
 ## 2. Service Inventory
 
@@ -103,7 +100,6 @@ The following table justifies every running service on the system to ensure the 
 systemctl list-units --type=service --state=running
 ```
 **[INSERT SCREENSHOT HERE: Capture 'systemctl' output listing running services]**
-![System Service Inventory](w7%20Screenshot%20ststemct1%20list-units%202025-12-30%20151458.png)
 
 ## 3. Remaining Risk Assessment
 

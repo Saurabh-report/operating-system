@@ -51,9 +51,7 @@ sudo apt install stress-ng nginx -y
 ```
 *Wait for the process to complete to ensure all dependencies are met.*
 
-> [!NOTE]
-> **Screenshot Required**: Capture the terminal output showing the final lines of the installation process for `stress-ng` and `nginx`.
-> ![Installation Success](w3Screenshot%20install%20stress%20-g%202025-12-29%20211412.png)
+> ![Installation Success Placeholder]([INSERT_SCREENSHOT_HERE])
 
 ### Verify Tool Presence
 For `dd`, I verified its version to ensure the coreutils package is functioning correctly.
@@ -84,13 +82,6 @@ To measure performance, I will use a combination of real-time monitoring and log
 *   **Htop**: Provides a real-time visual dashboard of resource utilization (CPU, RAM, Swap).
 *   **Vmstat**: Used for high-resolution logging of system performance data.
 *   **Iostat**: Used to track granular disk performance metrics.
-
-### Post-Installation Verification
-To ensure the tools are correctly installed and capable of stressing the system, I performed a brief validation run.
-
-> [!NOTE]
-> **Screenshot**: The `htop` dashboard below confirms that `stress-ng` is able to engage all CPU cores as intended.
-> ![Stress-ng Verification](w3%20Screenshot%20stress-ng%202025-12-29%20215518.png)
 
 ---
 [Next: Week 4 - Initial System Configuration](week4.md)

@@ -49,7 +49,6 @@ The screenshot below validates the successful implementation of the security con
 2.  **Successful Shell Access**: Confirming the firewall permitted the connection.
 
 **[INSERT SCREENSHOT HERE: Capture your terminal showing a simple clean login 'ssh admin_user@192.168.56.10' where it logs in immediately without asking for a password]**
-![SSH Key Login Verification](w4%20Screenshot%20passwords%202025-12-29%20222519.png)
 
 ## 5. Configuration Files (Before and After)
 
@@ -89,8 +88,6 @@ New profiles: skip
 To                         Action      From
 --                         ------      ----
 22/tcp                     ALLOW IN    192.168.56.1
-
-> ![UFW Status Verbose](w4%20ufw%20status%20%20verbousScreenshot%202025-12-29%20223022.png)
 ```
 
 ## 7. Remote Administration Evidence
@@ -110,7 +107,6 @@ The screenshot below demonstrates the execution of the following commands in a s
 3.  `sudo apt update` (Verifying administrative package management capability)
 
 **[INSERT SCREENSHOT HERE: Capture your terminal showing the output of 'whoami', 'sudo -v', and 'sudo apt update' executed successfully via SSH]**
-![Administrative Evidence](w4%20Screenshot%20sudo%20-v%20%20%20%202025-12-29%20223454.png)
 
 ---
 [Next: Week 5 - Advanced Security](week5.md)

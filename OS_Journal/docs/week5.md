@@ -13,8 +13,6 @@ sudo apt install apparmor-utils -y
 sudo aa-status
 ```
 
-> ![AppArmor Status](w5%20Screenshot%20sudo%20aa-%20status2025-12-30%20112645.png)
-
 **Evidence of Implementation:**
 ```text
 apparmor module is loaded.
@@ -42,8 +40,6 @@ sudo apt install unattended-upgrades -y
 # Enable the configuration wizard (Select 'Yes')
 sudo dpkg-reconfigure --priority=low unattended-upgrades
 ```
-
-> ![Unattended Upgrades Config](w5%20Screenshot%20unattended-upgrades%202025-12-29%20223825.png)
 
 **Configuration Evidence:**
 File: `/etc/apt/apt.conf.d/50unattended-upgrades`
@@ -86,8 +82,6 @@ bantime = 1h
 
 **Status Verification:**
 Command: `sudo fail2ban-client status sshd`
-
-> ![Fail2Ban Status](w5%20Screenshot%20sudo%20fail2ban%20sshd%20status%202025-12-30%20113422.png)
 ```text
 Status for the jail: sshd
 |- Filter
@@ -117,10 +111,8 @@ chmod +x security-baseline.sh
 ./security-baseline.sh
 ```
 
-**Execution Evidence:**
-
-> ![Security Baseline Execution 1](w5%20Screenshot%20%20chmod%20+x%20security-baseline.sh2025-12-30%20123549.png)
-> ![Security Baseline Results](w5%20Screenshot%20security%20baseline%202025-12-30%20125354.png)
+**Execution Screenshot:**
+**[INSERT SCREENSHOT HERE: Output of ./security-baseline.sh showing [MATCH] for all checks]**
 
 ## 5. Remote Monitoring Script
 
@@ -137,10 +129,8 @@ chmod +x scripts/monitor-server.sh
 ./scripts/monitor-server.sh
 ```
 
-**Execution Evidence:**
-
-> ![Remote Monitoring Script 1](w5%20Screenshot%20monitor%202025-12-30%20130045.png)
-> ![Remote Monitoring Script 2](w5%20Screenshot%20monitoring%20server%202025-12-30%20132130.png)
+**Execution Screenshot:**
+**[INSERT SCREENSHOT HERE: Output of ./monitor-server.sh showing system stats]**
 
 ---
 [Next: Week 6 - Performance Evaluation](week6.md)
