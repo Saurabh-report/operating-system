@@ -53,6 +53,8 @@ Unattended-Upgrade::Allowed-Origins {
 ```
 *Verification*: Examining `/var/log/unattended-upgrades/` confirms that security patches are applied daily.
 
+![Unattended Upgrades Evidence](w5%20Screenshot%20unattended-upgrades%202025-12-29%20223825.png)
+
 ## 3. Configure Fail2Ban for Intrusion Detection
 
 I implemented `fail2ban` to protect the SSH service from brute-force attacks. It scans log files for repeated failed login attempts and bans the offending IP address using the firewall.
@@ -92,6 +94,8 @@ Status for the jail: sshd
    |- Total banned:	1
 ```
 
+![Fail2Ban Status Evidence](w5%20Screenshot%20sudo%20fail2ban%20sshd%20status%202025-12-30%20113422.png)
+
 ## 4. Security Baseline Verification Script
 
 I created a custom script to audit the server against my defined security baseline (UFW active, Root Login disabled, AppArmor active).
@@ -112,7 +116,7 @@ chmod +x security-baseline.sh
 ```
 
 **Execution Screenshot:**
-**[INSERT SCREENSHOT HERE: Output of ./security-baseline.sh showing [MATCH] for all checks]**
+![Security Baseline Results](w5%20Screenshot%20security%20baseline%202025-12-30%20125354.png)
 
 ## 5. Remote Monitoring Script
 
@@ -130,7 +134,7 @@ chmod +x scripts/monitor-server.sh
 ```
 
 **Execution Screenshot:**
-**[INSERT SCREENSHOT HERE: Output of ./monitor-server.sh showing system stats]**
+![Monitoring Server Output](w5%20Screenshot%20monitoring%20server%202025-12-30%20132130.png)
 
 ---
 [Next: Week 6 - Performance Evaluation](week6.md)
