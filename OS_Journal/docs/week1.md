@@ -88,7 +88,7 @@ df -h
 ip addr
 ```
 
-**[INSERT SCREENSHOT HERE: Capture terminal showing the output of the above commands]**
+![Terminal Evidence Evidence](w1%20terminal%20comand%20run.png)
 
 ---
 [Next: Week 2 - Security Planning](week2.md)
