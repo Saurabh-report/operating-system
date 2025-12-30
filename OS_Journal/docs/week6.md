@@ -85,7 +85,9 @@ To validate the performance data, I have captured real-time screenshots during t
 *   **Explanation**: This command spawns 4 worker threads that calculate complex math functions, forcing all 4 CPU cores to 100% utilization.
 *   **Verification**: The `htop` screenshot below shows all cores (numbered 1-4) at or near 100% usage (Green/Red bars).
 
-**[INSERT SCREENSHOT HERE: Capture 'htop' showing high CPU bars during stress-ng]**
+**Execution Evidence:**
+
+> ![CPU Stress Htop](w3%20Screenshot%20stress-ng%202025-12-29%20215518.png)
 
 ### Evidence B: Disk Speed Test
 *   **Command**: `dd if=/dev/zero of=testfile bs=1G count=1 oflag=direct`
@@ -93,7 +95,9 @@ To validate the performance data, I have captured real-time screenshots during t
     *   `oflag=direct`: Forces the write to bypass the RAM cache and go straight to the disk, giving the TRUE disk speed.
 *   **Verification**: The terminal output below shows the final write speed (e.g., "110 MB/s").
 
-**[INSERT SCREENSHOT HERE: Capture terminal showing 'dd' completion speed]**
+**Execution Evidence:**
+
+> ![Disk Speed Test](w6%20Screenshot%20%20dd%20speed%20test%202025-12-30%20143454.png)
 
 ## 5. Network Performance Analysis
 
@@ -109,7 +113,9 @@ I synthesized a client-server workload to measure network efficiency.
 | **Throughput (SCP)** | 45 MB/s | N/A | Limited by virtual network adapter overhead. |
 | **Packet Loss** | 0% | 0% | Connection is stable. |
 
-**[INSERT SCREENSHOT HERE: Capture output of your 'ping' command showing RTT times]**
+**Execution Evidence:**
+
+> ![Network Latency Test](w6%20Screenshotpng%20-c%202025-12-30%20143821.png)
 
 ## 6. Optimisation Analysis
 
@@ -142,7 +148,9 @@ I synthesized a client-server workload to measure network efficiency.
 | **Free RAM** | 185 MB | 225 MB | **+40 MB** |
 | **Boot Time** | 12.5s | 10.2s | **-2.3s** |
 
-**[INSERT SCREENSHOT HERE: Capture 'systemctl status snapd' showing it is inactive/disabled]**
+**Execution Evidence:**
+
+> ![Snap Status Optimization](w6%20Screenshot%20%20sudo%20snap%20status%202025-12-30%20144959.png)
 
 ---
 [Next: Week 7 - Security Audit](week7.md)
