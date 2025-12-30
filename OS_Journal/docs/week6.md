@@ -127,7 +127,6 @@ I synthesized a client-server workload to measure network efficiency.
 | **Swap Trigger Point** | ~60% RAM Usage | ~90% RAM Usage | +50% Efficiency |
 | **Idle Swap Usage** | 25 MB | 0 MB | 100% Reduction |
 
-**[INSERT SCREENSHOT HERE: Capture 'cat /proc/sys/vm/swappiness' output showing '10']**
 
 ### Optimization 2: Service Pruning (`snapd`)
 *Problem*: `snapd` daemon consumed ~40MB RAM idling.
