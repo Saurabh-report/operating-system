@@ -23,6 +23,8 @@ The following matrix categorizes our chosen tools by their primary resource impa
 | **Network-Intensive** | **Nginx** | High-performance web server. When configured to serve static files under load, it creates significant network traffic and socket usage. |
 | **Server Application** | **Nginx** | Represents a real-world "Server" workload (unlike synthetic tests), handling concurrent connections and daemon process management. |
 
+![Application Selection Stress Evidence](w3%20Screenshot%20stress-ng%202025-12-29%20215518.png)
+
 ### Selection Rationale
 
 The selection of these tools was driven by the need for **reproducibility** and **resource isolation**:
