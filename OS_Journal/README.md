@@ -1,8 +1,8 @@
 # Operating Systems Technical Journal
 
-**Student ID:** [INSERT STUDENT ID]  
+**Student ID:** A00020689  
 **Course:** CMPN202 Operating Systems  
-**Module Leader:** Dr Ogechukwu Okonor  
+
 
 ---
 
